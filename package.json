@@ -1,9 +1,9 @@
 {
-    "name": "LogToConsole",
+    "name": "SeelesItemPack",
     "version": "1.0.0",
     "main": "src/mod.js",
-    "license": "MIT",
-    "author": "Chomp",
+    "license": "VHIAccess",
+    "author": "千叶玲花",
     "akiVersion": "3.5.0",
     "scripts": {
         "setup:environment": "npm i",
