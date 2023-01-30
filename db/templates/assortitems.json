@@ -1,0 +1,66 @@
+{
+    "items":[
+        {
+            "_id": "testid1",
+            "_tpl": "测试包裹",
+            "parentId": "hideout",
+            "slotId": "hideout",
+            "upd": {
+                    "SpawnedInSession": true,
+                    "UnlimitedCount": true
+                }
+        },
+        {
+            "_id": "testid1_1",
+            "_tpl": "测试币",
+            "parentId": "testid1",
+            "slotId": "cartridges",
+            "upd": {
+                "StackObjectsCount": 20,
+                "SpawnedInSession": true
+            }
+        },
+        {
+            "_id": "testid2",
+            "_tpl": "5737266524597761006c6a8c",
+            "parentId": "hideout",
+            "slotId": "hideout",
+            "upd": {
+                    "SpawnedInSession": true,
+                    "UnlimitedCount": true
+                }
+        },
+        {
+            "_id": "testid2_1",
+            "_tpl": "57371eb62459776125652ac1",
+            "parentId": "testid2",
+            "slotId": "cartridges",
+            "upd": {
+                "StackObjectsCount": 16,
+                "SpawnedInSession": true
+            }
+        }
+    ],
+    "barter_scheme":{
+        "testid1":[
+            [
+                {
+                    "count": 1,
+                    "_tpl": "5449016a4bdc2d6f028b456f" 
+                }
+            ]
+        ],
+        "testid2":[
+            [
+                {
+                    "count": 1,
+                    "_tpl": "5449016a4bdc2d6f028b456f" 
+                }
+            ]
+        ]
+    },
+    "loyal_level_items":{
+        "testid1":1,
+        "testid2":1
+    }
+}

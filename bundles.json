@@ -1,0 +1,242 @@
+{
+    "manifest": [
+        {
+            "key": "vector_red/textures/client_assets.bundle",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "vector_red/weapon_tdi_kriss_vector_gen_2_1143x23_container.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "assets/content/audio/banks/mp7.bundle",
+                "assets/content/audio/blendoptions/assets.bundle",
+                "assets/content/audio/weapons/ak74.bundle",
+                "assets/content/audio/weapons/generic",
+                "assets/content/weapons/additional_hands/client_assets.bundle",
+                "assets/content/weapons/animations/simple_animations.bundle",
+                "assets/content/weapons/animations/spirit_animations.bundle",
+                "vector_red/client_assets.bundle",
+                "vector_red/textures/client_assets.bundle",
+                "vector_red/weapon_tdi_kriss_vector_gen_2_9x19_container.bundle",
+                "assets/content/weapons/weapon_root_anim_fix.bundle",
+                "assets/content/weapons/wip/kibas tuning prefabs/muzzlejets_templates/default_assets.bundle",
+                "assets/systems/effects/heathaze/defaultheathaze.bundle",
+                "assets/systems/effects/muzzleflash/muzzleflash.bundle",
+                "assets/systems/effects/smoke.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "vector_red/client_assets.bundle",
+			"dependencyKeys": [
+                "vector_red/textures/client_assets.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "mods/barrel_vector_170mm_1143x23.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "assets/systems/effects/smoke.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "mods/muzzle_all_silencerco_omega_45k_direct_thread_adapter_1143x23.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "mods/silencer_base_silencerco_omega_45k_1143x23.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "assets/systems/effects/smoke.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "mods/mount_vector_kriss_mk5_modular_rail.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "mods/foregrip_all_zenit_rk_2.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "assets/content/items/mods/foregrips/foregrip_all_zenit_rk_x_lod1_texture",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "mods/stock_vector_kriss_non_folding_adapter.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "mods/stock_ar15_ergo_f93_pro_stock.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "mods/stock_ar15_high_standart_m4ss_lod0_textures.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "mods/stock_ar15_high_standart_m4ss_lod0_textures.bundle",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "vector_red/weapon_tdi_kriss_vector_gen_2_9x19_container.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "assets/content/audio/banks/mp7.bundle",
+                "assets/content/audio/blendoptions/assets.bundle",
+                "assets/content/audio/weapons/ak74.bundle",
+                "assets/content/audio/weapons/generic",
+                "assets/content/weapons/additional_hands/client_assets.bundle",
+                "assets/content/weapons/animations/simple_animations.bundle",
+                "assets/content/weapons/animations/spirit_animations.bundle",
+                "vector_red/client_assets.bundle",
+                "vector_red/textures/client_assets.bundle",
+                "assets/content/weapons/weapon_root_anim_fix.bundle",
+                "assets/content/weapons/wip/kibas tuning prefabs/muzzlejets_templates/default_assets.bundle",
+                "assets/systems/effects/heathaze/defaultheathaze.bundle",
+                "assets/systems/effects/muzzleflash/muzzleflash.bundle",
+                "assets/systems/effects/smoke.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "mods/scope_all_walther_mrs.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "assets/systems/effects/collimator.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "mods/mag_glock_kriss_magex_g30_1143x23_30.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "ammo/patron_1143x23_acp.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "SigmaContainer/item_container_items_thicc.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "Omega_Container/item_container_items_thicc.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+		{
+            "key": "assets/content/items/equipment/target/target.bundle",
+			"dependencyKeys": [
+				"cubemaps",
+				"shaders",
+				"assets/commonassets/physics/physicsmaterials.bundle",
+				"assets/content/characters/character/skeleton.bundle"
+			]
+		},
+        {
+            "key": "assets/content/items/equipment/armor_6b34_black/item_equipment_armor_6b34.bundle",
+			"dependencyKeys": [
+                "assets/commonassets/physics/physicsmaterials.bundle",
+                "cubemaps",
+                "shaders"
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        },
+        {
+            "key": "string",
+			"dependencyKeys": [
+            ]
+        }
+
+    ]
+
+}

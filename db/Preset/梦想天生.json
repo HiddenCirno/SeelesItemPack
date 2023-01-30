@@ -1,0 +1,77 @@
+{
+    "ID": "梦想天生默认预设",
+    "Name": "梦想天生",
+    "Preset": {
+        "_id": "梦想天生默认预设",
+        "_type": "Preset",
+        "_changeWeaponName": false,
+        "_name": "Vector_梦想天生_default",
+        "_parent": "梦想天生_主体",
+        "_items": [
+            {
+              "_id": "梦想天生_主体",
+              "_tpl": "Vector_梦想天生",
+              "upd": {
+                "FireMode": {
+                  "FireMode": "single"
+                }
+              }
+            },
+            {
+                "_id": "模块导轨_梦想天生",
+                "_tpl": "Mk5模块导轨_梦想天生",
+                "parentId": "梦想天生_主体",
+                "slotId": "mod_mount"
+            },
+            {
+                "_id": "前握把_梦想天生",
+                "_tpl": "RK2前握把_梦想天生",
+                "parentId": "模块导轨_梦想天生",
+                "slotId": "mod_foregrip"
+            },
+            {
+                "_id": "弹匣_梦想天生",
+                "_tpl": "Vector90发弹匣_梦想天生",
+                "parentId": "梦想天生_主体",
+                "slotId": "mod_magazine"
+            },
+            {
+                "_id": "红点镜_梦想天生",
+                "_tpl": "MRS_梦想天生",
+                "parentId": "梦想天生_主体",
+                "slotId": "mod_scope"
+            },
+            {
+                "_id": "枪托转接器_梦想天生",
+                "_tpl": "Vector枪托转接器_梦想天生",
+                "parentId": "梦想天生_主体",
+                "slotId": "mod_stock"
+            },
+            {
+                "_id": "枪托_梦想天生",
+                "_tpl": "F93枪托_梦想天生",
+                "parentId": "枪托转接器_梦想天生",
+                "slotId": "mod_stock_000"
+            },
+            {
+                "_id": "枪管_梦想天生",
+                "_tpl": "6英寸枪管_梦想天生",
+                "parentId": "梦想天生_主体",
+                "slotId": "mod_barrel"
+            },
+            {
+                "_id": "枪口转接器_梦想天生",
+                "_tpl": "DT转接器_梦想天生",
+                "parentId": "枪管_梦想天生",
+                "slotId": "mod_muzzle"
+            },
+            {
+                "_id": "消音器_梦想天生",
+                "_tpl": "Omega45K消音器_梦想天生",
+                "parentId": "枪口转接器_梦想天生",
+                "slotId": "mod_muzzle"
+            }
+        ],
+        "_encyclopedia": "Vector_梦想天生"
+    }
+}
