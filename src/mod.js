@@ -439,7 +439,7 @@ class Mod {
         data["brief"] = "逃离塔科夫商人交易数据手册";
         data["comment"] = "逃离塔科夫商人交易数据手册";
         data["helpdoc"] = {};
-        data["helpdoc"]["交易信息"] = "欢迎使用逃离塔科夫商人交易数据帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：\n0.13.0.2.27103\n当前手册服务端版本：\nSPT-AKI-BleedingEdge-3.5.0-Update01302023";
+        data["helpdoc"]["交易信息"] = "欢迎使用逃离塔科夫商人交易数据帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：\n0.13.0.2.27103\n当前手册服务端版本：\nSPT-AKI-BleedingEdge-3.5.0\nUpdate01302023";
         for (let item in ClientItems) {
             var itarr = [];
             var itarr2 = [];
