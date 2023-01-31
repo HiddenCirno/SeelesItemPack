@@ -157,46 +157,10 @@ class Mod {
         const ELocale = ClientDB.locales.global["en"];
         const ClientQuest = DB.templates.quests;
         const ClientItems = DB.templates.clientitem;
-        var docobj = {};
-        docobj.mod = "EFTQuestData";
-        docobj.author = "Hidden";
-        docobj.brief = "EFTQuestData";
-        docobj.comment = "EFTQuestData";
-        docobj.helpdoc = {};
-        for (let qt in DB.templates.quests) {
-            var Quest = DB.templates.quests[qt];
-            var FinishArr = Quest.conditions.AvailableForFinish;
-            var StarthArr = Quest.conditions.AvailableForStart;
-            var Name;
-            if (Locale[Quest._id + " name"]) {
-                Name = Locale[Quest._id + " name"];
-            }
-            else
-                Name = ELocale[Quest._id + " name"];
-            var TraderName = Locale[Quest.traderId + " Nickname"];
-            var fstrarr = [];
-            var fstr = "";
-            if (FinishArr.length > 0) {
-                for (var i = 0; i < FinishArr.length; i++) {
-                    var fid = FinishArr[i]._props.id;
-                    fstrarr.push(Locale[fid] + " " + FinishArr[i]._props.value);
-                }
-                for (var i = 0; i < fstrarr.length; i++) {
-                    fstr = fstr + "\n" + fstrarr[i];
-                }
-                docobj.helpdoc[Name] = Name + "（" + TraderName + "）" + fstr;
-                fstr = "";
-            }
-        }
-        VFS.writeFile(`${ModPath}doc.json`, JSON.stringify(docobj, null, 4));
-        var docobj2 = {};
-        docobj2.mod = "EFTItemData";
-        docobj2.author = "Hidden";
-        docobj2.brief = "EFTItemData";
-        docobj2.comment = "EFTItemData";
-        docobj2.helpdoc = {};
-        //初始化任务数据缓存
+        const ClientTrader = DB.traders;
+        //初始化数据缓存
         var QuestObj = {};
+        var AssortObj = {};
         //初始化任务对象和基础信息
         for (let quest in ClientQuest) {
             var QuestID = ClientQuest[quest]._id;
@@ -407,8 +371,214 @@ class Mod {
                 }
             }
         }
+        //交易信息重构
+        for (let trader in ClientTrader) {
+            if (ClientTrader[trader].assort && ClientTrader[trader].assort.items.length > 0) {
+                var Trader = ClientTrader[trader];
+                AssortObj[trader] = {};
+                AssortObj[trader].Name = Locale[Trader.base._id + " Nickname"];
+                AssortObj[trader].Item = {};
+                for (var i = 0; i < Trader.assort.items.length; i++) {
+                    if (Trader.assort.items[i].parentId == "hideout") {
+                        var aotid = Trader.assort.items[i]._id;
+                        AssortObj[trader].Item[aotid] = {};
+                        AssortObj[trader].Item[aotid].id = aotid;
+                        AssortObj[trader].Item[aotid].target = Trader.assort.items[i]._tpl;
+                        AssortObj[trader].Item[aotid].name = Locale[Trader.assort.items[i]._tpl + " Name"];
+                        AssortObj[trader].Item[aotid].type = "Exchange";
+                        AssortObj[trader].Item[aotid].unlock = "None";
+                        AssortObj[trader].Item[aotid].level = Trader.assort.loyal_level_items[aotid];
+                        AssortObj[trader].Item[aotid].limit = "None";
+                        AssortObj[trader].Item[aotid].limitcount = 0;
+                        if (Trader.assort.items[i].upd.BuyRestrictionMax) {
+                            AssortObj[trader].Item[aotid].limit = "Limit";
+                            AssortObj[trader].Item[aotid].limitcount = Trader.assort.items[i].upd.BuyRestrictionMax;
+                        }
+                        AssortObj[trader].Item[aotid].list = {};
+                        AssortObj[trader].Item[aotid].cost = {};
+                        AssortObj[trader].Item[aotid].quest = {};
+                        for (var j = 0; j < Trader.assort.barter_scheme[aotid][0].length; j++) {
+                            var Bt = Trader.assort.barter_scheme[aotid][0][j];
+                            var BT = Trader.assort.barter_scheme[aotid][0];
+                            AssortObj[trader].Item[aotid].list[Bt._tpl] = {};
+                            AssortObj[trader].Item[aotid].list[Bt._tpl].id = Bt._tpl;
+                            AssortObj[trader].Item[aotid].list[Bt._tpl].name = Locale[Bt._tpl + " Name"];
+                            AssortObj[trader].Item[aotid].list[Bt._tpl].count = Bt.count;
+                            if (Bt._tpl == "5449016a4bdc2d6f028b456f" || Bt._tpl == "5696686a4bdc2da3298b456a" || Bt._tpl == "569668774bdc2da2298b4568") {
+                                AssortObj[trader].Item[aotid].type = "Buyout";
+                                AssortObj[trader].Item[aotid].cost.id = Bt._tpl;
+                                AssortObj[trader].Item[aotid].cost.name = Locale[Bt._tpl + " Name"];
+                                AssortObj[trader].Item[aotid].cost.count = Bt.count;
+                            }
+                        }
+                    }
+                    if (Trader.questassort) {
+                        for (let sc in Trader.questassort.success) {
+                            var qt = Trader.questassort.success[sc];
+                            if (sc == aotid) {
+                                AssortObj[trader].Item[aotid].unlock = "Quest";
+                                AssortObj[trader].Item[aotid].quest.id = qt;
+                                AssortObj[trader].Item[aotid].quest.name = Locale[qt + " name"];
+                                AssortObj[trader].Item[aotid].quest.tradername = Locale[ClientQuest[qt].traderId + " Nickname"];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //写入文件
+        VFS.writeFile(`${ModPath}asCache.json`, JSON.stringify(AssortObj, null, 4));
         VFS.writeFile(`${ModPath}QuestCache.json`, JSON.stringify(QuestObj, null, 4));
+        CustomLog("File Write Finished.");
         const QuestJson = JsonUtil.deserialize(VFS.readFile(`${ModPath}QuestCache.json`));
+        const AssortJson = JsonUtil.deserialize(VFS.readFile(`${ModPath}asCache.json`));
+        //构建交易信息对象
+        var data = {};
+        data["mod"] = "逃离塔科夫商人交易数据手册";
+        data["author"] = "Hidden";
+        data["brief"] = "逃离塔科夫商人交易数据手册";
+        data["comment"] = "逃离塔科夫商人交易数据手册";
+        data["helpdoc"] = {};
+        data["helpdoc"]["交易信息"] = "欢迎使用逃离塔科夫商人交易数据帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：0.13.0.2.27103\n当前手册服务端版本：SPT-AKI-BleedingEdge-3.5.0-Update01302023";
+        for (let item in ClientItems) {
+            var itarr = [];
+            var itarr2 = [];
+            var itstr = "";
+            var itemid = ClientItems[item]._id;
+            for (let td in AssortJson) {
+                for (let it in AssortJson[td].Item) {
+                    var It = AssortJson[td].Item[it];
+                    if (It.target == itemid) {
+                        switch (It.type) {
+                            case "Buyout":
+                                {
+                                    switch (It.limit) {
+                                        case "Limit":
+                                            {
+                                                switch (It.unlock) {
+                                                    case "Quest":
+                                                        {
+                                                            itarr.push("\n此物品可从" + AssortJson[td].Name + "处直接购买" + "\n需求货币 " + It.cost.name + "\n需求数量 " + It.cost.count + "\n需求信任等级 " + It.level + "\n限购数量 " + It.limitcount + "\n需要完成任务 " + It.quest.name + "(" + It.quest.tradername + ")");
+                                                        }
+                                                        break;
+                                                    case "None":
+                                                        {
+                                                            itarr.push("\n此物品可从" + AssortJson[td].Name + "处直接购买" + "\n需求货币 " + It.cost.name + "\n需求数量 " + It.cost.count + "\n需求信任等级 " + It.level + "\n限购数量 " + It.limitcount);
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        case "None":
+                                            {
+                                                switch (It.unlock) {
+                                                    case "Quest":
+                                                        {
+                                                            itarr.push("\n此物品可从" + AssortJson[td].Name + "处直接购买" + "\n需求货币 " + It.cost.name + "\n需求数量 " + It.cost.count + "\n需求信任等级 " + It.level + "\n需要完成任务 " + It.quest.name + "(" + It.quest.tradername + ")");
+                                                        }
+                                                        break;
+                                                    case "None":
+                                                        {
+                                                            itarr.push("\n此物品可从" + AssortJson[td].Name + "处直接购买" + "\n需求货币 " + It.cost.name + "\n需求数量 " + It.cost.count + "\n需求信任等级 " + It.level);
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                    }
+                                }
+                                break;
+                            case "Exchange": {
+                                switch (It.limit) {
+                                    case "Limit":
+                                        {
+                                            switch (It.unlock) {
+                                                case "Quest":
+                                                    {
+                                                        var itstr2 = "\n此物品可从" + AssortJson[td].Name + "处换取" + "\n换取配方: ";
+                                                        for (let it2 in It.list) {
+                                                            itarr2.push("\n" + It.list[it2].name + " x" + It.list[it2].count);
+                                                        }
+                                                        for (var i = 0; i < itarr2.length; i++) {
+                                                            itstr2 += itarr2[i];
+                                                        }
+                                                        itstr2 += "\n需求信任等级 " + It.level + "\n限购数量 " + It.limitcount + "\n需要完成任务 " + It.quest.name + "(" + It.quest.tradername + ")";
+                                                        itarr.push(itstr2);
+                                                        itstr2 = "";
+                                                        itarr2 = [];
+                                                    }
+                                                    break;
+                                                case "None":
+                                                    {
+                                                        var itstr2 = "\n此物品可从" + AssortJson[td].Name + "处换取" + "\n换取配方: ";
+                                                        for (let it2 in It.list) {
+                                                            itarr2.push("\n" + It.list[it2].name + " x" + It.list[it2].count);
+                                                        }
+                                                        for (var i = 0; i < itarr2.length; i++) {
+                                                            itstr2 += itarr2[i];
+                                                        }
+                                                        itstr2 += "\n需求信任等级 " + It.level + "\n限购数量 " + It.limitcount;
+                                                        itarr.push(itstr2);
+                                                        itstr2 = "";
+                                                        itarr2 = [];
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                    case "None":
+                                        {
+                                            switch (It.unlock) {
+                                                case "Quest":
+                                                    {
+                                                        var itstr2 = "\n此物品可从" + AssortJson[td].Name + "处换取" + "\n换取配方: ";
+                                                        for (let it2 in It.list) {
+                                                            itarr2.push("\n" + It.list[it2].name + " x" + It.list[it2].count);
+                                                        }
+                                                        for (var i = 0; i < itarr2.length; i++) {
+                                                            itstr2 += itarr2[i];
+                                                        }
+                                                        itstr2 += "\n需求信任等级 " + It.level + "\n需要完成任务 " + It.quest.name + "(" + It.quest.tradername + ")";
+                                                        itarr.push(itstr2);
+                                                        itstr2 = "";
+                                                        itarr2 = [];
+                                                    }
+                                                    break;
+                                                case "None":
+                                                    {
+                                                        var itstr2 = "\n此物品可从" + AssortJson[td].Name + "处换取" + "\n换取配方: ";
+                                                        for (let it2 in It.list) {
+                                                            itarr2.push("\n" + It.list[it2].name + " x" + It.list[it2].count);
+                                                        }
+                                                        for (var i = 0; i < itarr2.length; i++) {
+                                                            itstr2 += itarr2[i];
+                                                        }
+                                                        itstr2 += "\n需求信任等级 " + It.level;
+                                                        itarr.push(itstr2);
+                                                        itstr2 = "";
+                                                        itarr2 = [];
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for (var i = 0; i < itarr.length; i++) {
+                itstr = itstr + itarr[i];
+            }
+            if (itstr != "") {
+                data["helpdoc"]["交易信息 " + Locale[itemid + " Name"]] = Locale[itemid + " Name"] + itstr;
+                itstr = "";
+                itarr = [];
+            }
+        }
+        VFS.writeFile(`${ModPath}交易数据手册.json`, JSON.stringify(data, null, 4));
+        //任务物品需求(需要重写)
         for (let item in ClientItems) {
             var itarr = [];
             var itstr = "";
@@ -450,44 +620,10 @@ class Mod {
                 }
             }
             if (itstr != "") {
-                //var itstr2 = itstr.slice(0, -20) + "。\n"
-                //CustomLog(Locale[itemid + " Name"] + itstr)
-                docobj2.helpdoc[Locale[itemid + " Name"]] = Locale[itemid + " Name"] + itstr;
                 itstr = "";
                 itarr = [];
             }
         }
-        VFS.writeFile(`${ModPath}doc2.json`, JSON.stringify(docobj2, null, 4));
-        var bossobj = {};
-        bossobj.mod = "EFTBossData";
-        bossobj.author = "Hidden";
-        bossobj.brief = "EFTBossData";
-        bossobj.comment = "EFTBossData";
-        bossobj.helpdoc = {};
-        var health = 0;
-        for (let bot in ClientDB.bots.types) {
-            for (let bp in ClientDB.bots.types[bot].health.BodyParts[0]) {
-                var Part = ClientDB.bots.types[bot].health.BodyParts[0];
-                health += ClientDB.bots.types[bot].health.BodyParts[0][bp].max;
-            }
-            var str1 = "\n头部 " + Part.Head.max + "\n胸部 " + Part.Chest.max + "\n手部 " + Part.LeftArm.max + "\n胃部 " + Part.Stomach.max + "\n腿部 " + Part.RightLeg.max + "\n总计 " + (Part.RightLeg.max * 2 + Part.LeftArm.max * 2 + Part.Head.max + Part.Chest.max + Part.Stomach.max);
-            bossobj.helpdoc[bot] = str1;
-        }
-        //VFS.writeFile(`${ModPath}bossobj.json`, JSON.stringify(bossobj, null, 4))
-        var Ammoobj = {};
-        Ammoobj.mod = "EFTAmmoData";
-        Ammoobj.author = "Hidden";
-        Ammoobj.brief = "EFTAmmoData";
-        Ammoobj.comment = "EFTAmmoData";
-        Ammoobj.helpdoc = {};
-        for (let item in ClientItems) {
-            if (ClientItems[item]._parent == "5485a8684bdc2da71d8b4567") {
-                var str = "\n穿深 " + ClientItems[item]._props.PenetrationPower + "\n肉伤 " + ClientItems[item]._props.Damage + "\n甲伤 " + ClientItems[item]._props.ArmorDamage;
-                Ammoobj.helpdoc[Locale[ClientItems[item]._id + " Name"]] = Locale[ClientItems[item]._id + " Name"] + str;
-            }
-        }
-        VFS.writeFile(`${ModPath}Ammoobj.json`, JSON.stringify(Ammoobj, null, 4));
-        //"SpawnedInSession": true
         function GenerateHash(string) {
             const shasum = crypto_1.default.createHash("sha1");
             shasum.update(string);
