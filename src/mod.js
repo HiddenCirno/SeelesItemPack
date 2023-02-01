@@ -439,7 +439,7 @@ class Mod {
         data["brief"] = "逃离塔科夫商人交易数据手册";
         data["comment"] = "逃离塔科夫商人交易数据手册";
         data["helpdoc"] = {};
-        data["helpdoc"]["交易信息"] = "欢迎使用逃离塔科夫商人交易数据帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：\n0.13.0.2.27103\n当前手册服务端版本：\nSPT-AKI-BleedingEdge-3.5.0\nUpdate01302023";
+        data["helpdoc"]["交易信息"] = "欢迎使用逃离塔科夫商人交易数据帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：\n0.13.0.2.27103\n当前手册服务端版本：\nSPT-AKI-BleedingEdge-3.5.0\nUpdate02012023";
         for (let item in ClientItems) {
             var itarr = [];
             var itarr2 = [];
@@ -580,12 +580,134 @@ class Mod {
             }
         }
         VFS.writeFile(`${ModPath}交易数据手册.json`, JSON.stringify(data, null, 4));
-        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 1) + " Name"]);
-        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 2) + " Name"]);
-        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 3) + " Name"]);
-        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 4) + " Name"]);
-        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 5) + " Name"]);
-        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 6) + " Name"]);
+        //构建交易信息对象
+        var data2 = {};
+        data2["mod"] = "逃离塔科夫物品交易用途";
+        data2["author"] = "Hidden";
+        data2["brief"] = "逃离塔科夫物品交易用途";
+        data2["comment"] = "逃离塔科夫物品交易用途";
+        data2["helpdoc"] = {};
+        data2["helpdoc"]["交易信息"] = "欢迎使用逃离塔科夫物品交易用途帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：\n0.13.0.2.27103\n当前手册服务端版本：\nSPT-AKI-BleedingEdge-3.5.0\nUpdate02012023";
+        for (let item in ClientItems) {
+            var itarr = [];
+            var itarr2 = [];
+            var itstr = "";
+            var itemid = ClientItems[item]._id;
+            for (let td in AssortJson) {
+                for (let it in AssortJson[td].Item) {
+                    var It = AssortJson[td].Item[it];
+                    switch (It.type) {
+                        case "Exchange": {
+                            switch (It.limit) {
+                                case "Limit":
+                                    {
+                                        switch (It.unlock) {
+                                            case "Quest":
+                                                {
+                                                    for (let it2 in It.list) {
+                                                        if (It.list[it2].id == itemid) {
+                                                            var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: ";
+                                                            var arr2 = [];
+                                                            for (let it3 in It.list) {
+                                                                arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count);
+                                                            }
+                                                            for (var i = 0; i < arr2.length; i++) {
+                                                                str2 += arr2[i];
+                                                            }
+                                                            str2 += "\n需求信任等级 " + It.level + "\n需要完成任务 " + It.quest.name + "(" + It.quest.tradername + ")" + "\n限购数量 " + It.limitcount;
+                                                            itarr.push(str2);
+                                                            str2 = "";
+                                                            arr2 = [];
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                            case "None":
+                                                {
+                                                    for (let it2 in It.list) {
+                                                        if (It.list[it2].id == itemid) {
+                                                            var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: ";
+                                                            var arr2 = [];
+                                                            for (let it3 in It.list) {
+                                                                arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count);
+                                                            }
+                                                            for (var i = 0; i < arr2.length; i++) {
+                                                                str2 += arr2[i];
+                                                            }
+                                                            str2 += "\n需求信任等级 " + It.level + "\n限购数量 " + It.limitcount;
+                                                            itarr.push(str2);
+                                                            str2 = "";
+                                                            arr2 = [];
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                        }
+                                    }
+                                    break;
+                                case "None":
+                                    {
+                                        switch (It.unlock) {
+                                            case "Quest":
+                                                {
+                                                    for (let it2 in It.list) {
+                                                        if (It.list[it2].id == itemid) {
+                                                            var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: ";
+                                                            var arr2 = [];
+                                                            for (let it3 in It.list) {
+                                                                arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count);
+                                                            }
+                                                            for (var i = 0; i < arr2.length; i++) {
+                                                                str2 += arr2[i];
+                                                            }
+                                                            str2 += "\n需求信任等级 " + It.level + "\n需要完成任务 " + It.quest.name + "(" + It.quest.tradername + ")";
+                                                            itarr.push(str2);
+                                                            str2 = "";
+                                                            arr2 = [];
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                            case "None":
+                                                {
+                                                    for (let it2 in It.list) {
+                                                        if (It.list[it2].id == itemid) {
+                                                            var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: ";
+                                                            var arr2 = [];
+                                                            for (let it3 in It.list) {
+                                                                arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count);
+                                                            }
+                                                            for (var i = 0; i < arr2.length; i++) {
+                                                                str2 += arr2[i];
+                                                            }
+                                                            str2 += "\n需求信任等级 " + It.level;
+                                                            itarr.push(str2);
+                                                            str2 = "";
+                                                            arr2 = [];
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                        }
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            for (var i = 0; i < itarr.length; i++) {
+                itstr = itstr + itarr[i];
+            }
+            if (itstr != "") {
+                if (modparent(itemid, 6) != "5448fe124bdc2da5018b4567") {
+                    data2["helpdoc"]["交易用途 " + Locale[itemid + " Name"]] = Locale[itemid + " Name"] + itstr;
+                    itstr = "";
+                    itarr = [];
+                }
+            }
+        }
+        VFS.writeFile(`${ModPath}交易用途手册.json`, JSON.stringify(data2, null, 4));
         //任务物品需求(需要重写)
         for (let item in ClientItems) {
             var itarr = [];
