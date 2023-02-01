@@ -122,7 +122,7 @@
                 "target": "57f4c844245977379d5c14d1",
                 "name": "PP-9 “楔子” 9x18PMM 微型冲锋枪",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 1,
                 "limit": "None",
                 "limitcount": 0,
@@ -138,7 +138,11 @@
                     "name": "卢布",
                     "count": 23427
                 },
-                "quest": {}
+                "quest": {
+                    "id": "59c124d686f774189b3c843f",
+                    "name": "石油存储",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d0b3eba6c95d0eff91": {
                 "id": "63d385d0b3eba6c95d0eff91",
@@ -191,7 +195,7 @@
                 "target": "5839a40f24597726f856b511",
                 "name": "AKS-74UB 5.45x39 短突击步枪",
                 "type": "Exchange",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 1,
                 "limit": "Limit",
                 "limitcount": 2,
@@ -213,7 +217,11 @@
                     }
                 },
                 "cost": {},
-                "quest": {}
+                "quest": {
+                    "id": "5936d90786f7742b1420ba5b",
+                    "name": "首秀",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d0b3eba6c95d0effa4": {
                 "id": "63d385d0b3eba6c95d0effa4",
@@ -759,7 +767,7 @@
                 "target": "57ffb0e42459777d047111c5",
                 "name": "AKS-74U PBS-4 5.45x39消音器",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 3,
                 "limit": "Limit",
                 "limitcount": 4,
@@ -775,14 +783,18 @@
                     "name": "卢布",
                     "count": 35961
                 },
-                "quest": {}
+                "quest": {
+                    "id": "5967725e86f774601a446662",
+                    "name": "探囊取物",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d0b3eba6c95d0effe6": {
                 "id": "63d385d0b3eba6c95d0effe6",
                 "target": "576fd4ec2459777f0b518431",
                 "name": "Zenit-Belomo PSO 1M2-1 4x24瞄准镜",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 2,
                 "limit": "Limit",
                 "limitcount": 5,
@@ -798,7 +810,11 @@
                     "name": "卢布",
                     "count": 21565
                 },
-                "quest": {}
+                "quest": {
+                    "id": "5967530a86f77462ba22226b",
+                    "name": "罪证",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d0b3eba6c95d0effe8": {
                 "id": "63d385d0b3eba6c95d0effe8",
@@ -897,7 +913,7 @@
                 "target": "56dff3afd2720bba668b4567",
                 "name": "5.45x39毫米 PS",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 1,
                 "limit": "None",
                 "limitcount": 0,
@@ -913,7 +929,11 @@
                     "name": "卢布",
                     "count": 109
                 },
-                "quest": {}
+                "quest": {
+                    "id": "59674eb386f774539f14813a",
+                    "name": "往事速递",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d0b3eba6c95d0efff2": {
                 "id": "63d385d0b3eba6c95d0efff2",
@@ -966,7 +986,7 @@
                 "target": "55d482194bdc2d1d4e8b456b",
                 "name": "6L31 5.45x39 60发AK-74兼容弹匣",
                 "type": "Exchange",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 2,
                 "limit": "Limit",
                 "limitcount": 6,
@@ -978,7 +998,11 @@
                     }
                 },
                 "cost": {},
-                "quest": {}
+                "quest": {
+                    "id": "59675d6c86f7740a842fc482",
+                    "name": "蛋卷冰淇淋",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d0b3eba6c95d0efff8": {
                 "id": "63d385d0b3eba6c95d0efff8",
@@ -1146,7 +1170,7 @@
                 "target": "56dff061d2720bb5668b4567",
                 "name": "5.45x39毫米 BT",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 3,
                 "limit": "Limit",
                 "limitcount": 120,
@@ -1162,7 +1186,11 @@
                     "name": "卢布",
                     "count": 694
                 },
-                "quest": {}
+                "quest": {
+                    "id": "59ca264786f77445a80ed044",
+                    "name": "惩罚者 - 4",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d1b3eba6c95d0f0008": {
                 "id": "63d385d1b3eba6c95d0f0008",
@@ -1261,7 +1289,7 @@
                 "target": "573603562459776430731618",
                 "name": "7.62x25毫米TT Pst gzh",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 2,
                 "limit": "None",
                 "limitcount": 0,
@@ -1277,7 +1305,11 @@
                     "name": "卢布",
                     "count": 77
                 },
-                "quest": {}
+                "quest": {
+                    "id": "59c50c8886f7745fed3193bf",
+                    "name": "惩罚者 - 2",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d1b3eba6c95d0f0012": {
                 "id": "63d385d1b3eba6c95d0f0012",
@@ -1491,7 +1523,7 @@
                 "target": "573719df2459775a626ccbc2",
                 "name": "9x18毫米PM PBM",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 2,
                 "limit": "Limit",
                 "limitcount": 350,
@@ -1507,7 +1539,11 @@
                     "name": "卢布",
                     "count": 121
                 },
-                "quest": {}
+                "quest": {
+                    "id": "639135b04ed9512be67647d7",
+                    "name": "苏共之辉",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d1b3eba6c95d0f002d": {
                 "id": "63d385d1b3eba6c95d0f002d",
@@ -1560,7 +1596,7 @@
                 "target": "57372140245977611f70ee91",
                 "name": "9x18毫米PM SP7 gzh",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 2,
                 "limit": "Limit",
                 "limitcount": 450,
@@ -1576,7 +1612,11 @@
                     "name": "卢布",
                     "count": 165
                 },
-                "quest": {}
+                "quest": {
+                    "id": "639135b04ed9512be67647d7",
+                    "name": "苏共之辉",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d1b3eba6c95d0f0033": {
                 "id": "63d385d1b3eba6c95d0f0033",
@@ -1901,7 +1941,7 @@
                 "target": "55801eed4bdc2d89578b4588",
                 "name": "SV-98 7.62x54 狙击步枪",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 3,
                 "limit": "Limit",
                 "limitcount": 4,
@@ -1917,7 +1957,11 @@
                     "name": "卢布",
                     "count": 50090
                 },
-                "quest": {}
+                "quest": {
+                    "id": "59c50a9e86f7745fef66f4ff",
+                    "name": "惩罚者 - 1",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d1b3eba6c95d0f0063": {
                 "id": "63d385d1b3eba6c95d0f0063",
@@ -2545,7 +2589,7 @@
                 "target": "5a0c59791526d8dba737bba7",
                 "name": "AK GP-25附件包 后座力缓冲垫",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 2,
                 "limit": "Limit",
                 "limitcount": 4,
@@ -2561,7 +2605,11 @@
                     "name": "卢布",
                     "count": 4051
                 },
-                "quest": {}
+                "quest": {
+                    "id": "5ae3270f86f77445ba41d4dd",
+                    "name": "枪匠 - 6",
+                    "tradername": "Mechanic"
+                }
             },
             "63d385d1b3eba6c95d0f00bb": {
                 "id": "63d385d1b3eba6c95d0f00bb",
@@ -3896,7 +3944,7 @@
                 "target": "5c1260dc86f7746b106e8748",
                 "name": "8发9x39 7N12 BP弹药包",
                 "type": "Exchange",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 4,
                 "limit": "Limit",
                 "limitcount": 10,
@@ -3908,7 +3956,11 @@
                     }
                 },
                 "cost": {},
-                "quest": {}
+                "quest": {
+                    "id": "5c0d190cd09282029f5390d8",
+                    "name": "掷弹兵",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d2b3eba6c95d0f019b": {
                 "id": "63d385d2b3eba6c95d0f019b",
@@ -4689,7 +4741,7 @@
                 "target": "5cadfbf7ae92152ac412eeef",
                 "name": "ASh-12 12.7x55 突击步枪",
                 "type": "Exchange",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 4,
                 "limit": "Limit",
                 "limitcount": 2,
@@ -4701,7 +4753,11 @@
                     }
                 },
                 "cost": {},
-                "quest": {}
+                "quest": {
+                    "id": "5d4bec3486f7743cac246665",
+                    "name": "管制材料",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d2b3eba6c95d0f020d": {
                 "id": "63d385d2b3eba6c95d0f020d",
@@ -4847,7 +4903,7 @@
                 "target": "5cbdc23eae9215001136a407",
                 "name": "Molot 75发AK兼容弹鼓",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 3,
                 "limit": "Limit",
                 "limitcount": 2,
@@ -4863,7 +4919,11 @@
                     "name": "卢布",
                     "count": 31610
                 },
-                "quest": {}
+                "quest": {
+                    "id": "6179acbdc760af5ad2053585",
+                    "name": "小菜一碟 - 2",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d2b3eba6c95d0f0220": {
                 "id": "63d385d2b3eba6c95d0f0220",
@@ -4939,7 +4999,7 @@
                 "target": "5cbda392ae92155f3c17c39f",
                 "name": "AK-100系列聚合物护木",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 1,
                 "limit": "Limit",
                 "limitcount": 5,
@@ -4955,7 +5015,11 @@
                     "name": "卢布",
                     "count": 1441
                 },
-                "quest": {}
+                "quest": {
+                    "id": "5ac2426c86f774138762edfe",
+                    "name": "枪匠 - 2",
+                    "tradername": "Mechanic"
+                }
             },
             "63d385d2b3eba6c95d0f0228": {
                 "id": "63d385d2b3eba6c95d0f0228",
@@ -5096,7 +5160,7 @@
                 "target": "5c0d668f86f7747ccb7f13b2",
                 "name": "9x39毫米 7N9 SPP",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 4,
                 "limit": "Limit",
                 "limitcount": 90,
@@ -5112,7 +5176,11 @@
                     "name": "卢布",
                     "count": 809
                 },
-                "quest": {}
+                "quest": {
+                    "id": "5c0bd94186f7747a727f09b2",
+                    "name": "试驾 - 1",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d2b3eba6c95d0f023e": {
                 "id": "63d385d2b3eba6c95d0f023e",
@@ -5323,7 +5391,7 @@
                 "target": "5e023d34e8a400319a28ed44",
                 "name": "7.62x54R 7BT1",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 4,
                 "limit": "Limit",
                 "limitcount": 60,
@@ -5339,7 +5407,11 @@
                     "name": "卢布",
                     "count": 1867
                 },
-                "quest": {}
+                "quest": {
+                    "id": "59c512ad86f7741f0d09de9b",
+                    "name": "惩罚者 - 3",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d2b3eba6c95d0f025a": {
                 "id": "63d385d2b3eba6c95d0f025a",
@@ -5461,7 +5533,7 @@
                 "target": "5df8a4d786f77412672a1e3b",
                 "name": "6SH118突击背包",
                 "type": "Exchange",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 3,
                 "limit": "Limit",
                 "limitcount": 1,
@@ -5473,7 +5545,11 @@
                     }
                 },
                 "cost": {},
-                "quest": {}
+                "quest": {
+                    "id": "6179ac7511973d018217d0b9",
+                    "name": "小菜一碟 - 1",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d2b3eba6c95d0f0266": {
                 "id": "63d385d2b3eba6c95d0f0266",
@@ -5871,7 +5947,7 @@
                 "target": "602a9740da11d6478d5a06dc",
                 "name": "PL-15 9x19手枪",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 1,
                 "limit": "Limit",
                 "limitcount": 5,
@@ -5887,7 +5963,11 @@
                     "name": "卢布",
                     "count": 18137
                 },
-                "quest": {}
+                "quest": {
+                    "id": "59674cd986f7744ab26e32f2",
+                    "name": "硝烟野餐",
+                    "tradername": "Prapor"
+                }
             },
             "63d385d2b3eba6c95d0f029e": {
                 "id": "63d385d2b3eba6c95d0f029e",
@@ -15444,7 +15524,7 @@
                 "target": "58948c8e86f77409493f7266",
                 "name": "SIG MPX 9x19 冲锋枪",
                 "type": "Buyout",
-                "unlock": "Quest",
+                "unlock": "None",
                 "level": 2,
                 "limit": "Limit",
                 "limitcount": 2,
@@ -15460,18 +15540,14 @@
                     "name": "美元",
                     "count": 408.72
                 },
-                "quest": {
-                    "id": "5a27b80086f774429a5d7e20",
-                    "name": "鹰眼",
-                    "tradername": "Peacekeeper"
-                }
+                "quest": {}
             },
             "63d385c6b3eba6c95d0ef9ae": {
                 "id": "63d385c6b3eba6c95d0ef9ae",
                 "target": "58948c8e86f77409493f7266",
                 "name": "SIG MPX 9x19 冲锋枪",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 2,
                 "limit": "Limit",
                 "limitcount": 5,
@@ -15487,7 +15563,11 @@
                     "name": "美元",
                     "count": 537.15
                 },
-                "quest": {}
+                "quest": {
+                    "id": "5a27b80086f774429a5d7e20",
+                    "name": "鹰眼",
+                    "tradername": "Peacekeeper"
+                }
             },
             "63d385c6b3eba6c95d0ef9be": {
                 "id": "63d385c6b3eba6c95d0ef9be",
@@ -16817,7 +16897,7 @@
                 "target": "5926bb2186f7744b1c6c6e60",
                 "name": "HK MP5N 9x19 冲锋枪（海军型）",
                 "type": "Buyout",
-                "unlock": "Quest",
+                "unlock": "None",
                 "level": 2,
                 "limit": "None",
                 "limitcount": 0,
@@ -16833,18 +16913,14 @@
                     "name": "美元",
                     "count": 314.47
                 },
-                "quest": {
-                    "id": "5a27b7d686f77460d847e6a6",
-                    "name": "破铜烂铁",
-                    "tradername": "Peacekeeper"
-                }
+                "quest": {}
             },
             "63d385c6b3eba6c95d0efa4d": {
                 "id": "63d385c6b3eba6c95d0efa4d",
                 "target": "5926bb2186f7744b1c6c6e60",
                 "name": "HK MP5N 9x19 冲锋枪（海军型）",
                 "type": "Buyout",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 2,
                 "limit": "Limit",
                 "limitcount": 4,
@@ -16860,7 +16936,11 @@
                     "name": "美元",
                     "count": 520.02
                 },
-                "quest": {}
+                "quest": {
+                    "id": "5a27b7d686f77460d847e6a6",
+                    "name": "破铜烂铁",
+                    "tradername": "Peacekeeper"
+                }
             },
             "63d385c6b3eba6c95d0efa56": {
                 "id": "63d385c6b3eba6c95d0efa56",
@@ -28201,7 +28281,7 @@
                 "target": "5a7ae0c351dfba0017554310",
                 "name": "GLOCK 17 9x19手枪",
                 "type": "Buyout",
-                "unlock": "Quest",
+                "unlock": "None",
                 "level": 1,
                 "limit": "None",
                 "limitcount": 0,
@@ -28217,11 +28297,7 @@
                     "name": "卢布",
                     "count": 15526
                 },
-                "quest": {
-                    "id": "5ac2428686f77412450b42bf",
-                    "name": "枪匠 - 3",
-                    "tradername": "Mechanic"
-                }
+                "quest": {}
             },
             "63d385bfb3eba6c95d0ef445": {
                 "id": "63d385bfb3eba6c95d0ef445",
@@ -28451,7 +28527,7 @@
                 "target": "5447a9cd4bdc2dbd208b4567",
                 "name": "柯尔特 M4A1 5.56x45 卡宾枪",
                 "type": "Exchange",
-                "unlock": "Quest",
+                "unlock": "None",
                 "level": 2,
                 "limit": "Limit",
                 "limitcount": 2,
@@ -28463,18 +28539,14 @@
                     }
                 },
                 "cost": {},
-                "quest": {
-                    "id": "639872fc93ae507d5858c3a6",
-                    "name": "枪匠 - 11",
-                    "tradername": "Mechanic"
-                }
+                "quest": {}
             },
             "63d385bfb3eba6c95d0ef4c2": {
                 "id": "63d385bfb3eba6c95d0ef4c2",
                 "target": "5a7ae0c351dfba0017554310",
                 "name": "GLOCK 17 9x19手枪",
                 "type": "Exchange",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 1,
                 "limit": "Limit",
                 "limitcount": 2,
@@ -28486,7 +28558,11 @@
                     }
                 },
                 "cost": {},
-                "quest": {}
+                "quest": {
+                    "id": "5ac2428686f77412450b42bf",
+                    "name": "枪匠 - 3",
+                    "tradername": "Mechanic"
+                }
             },
             "63d385bfb3eba6c95d0ef4cc": {
                 "id": "63d385bfb3eba6c95d0ef4cc",
@@ -35398,7 +35474,7 @@
                 "target": "5447a9cd4bdc2dbd208b4567",
                 "name": "柯尔特 M4A1 5.56x45 卡宾枪",
                 "type": "Exchange",
-                "unlock": "None",
+                "unlock": "Quest",
                 "level": 2,
                 "limit": "Limit",
                 "limitcount": 1,
@@ -35410,7 +35486,11 @@
                     }
                 },
                 "cost": {},
-                "quest": {}
+                "quest": {
+                    "id": "639872fc93ae507d5858c3a6",
+                    "name": "枪匠 - 11",
+                    "tradername": "Mechanic"
+                }
             },
             "63d385c2b3eba6c95d0ef7f0": {
                 "id": "63d385c2b3eba6c95d0ef7f0",

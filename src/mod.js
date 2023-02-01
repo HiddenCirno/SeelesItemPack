@@ -155,9 +155,9 @@ class Mod {
         }
         const Locale = ClientDB.locales.global["ch"];
         const ELocale = ClientDB.locales.global["en"];
-        const ClientQuest = DB.templates.quests;
-        const ClientItems = DB.templates.clientitem;
-        const ClientTrader = DB.traders;
+        const ClientQuest = DB.templates.templates.quests;
+        const ClientItems = DB.templates.templates.items;
+        const ClientTrader = DB.templates.traders;
         //初始化数据缓存
         var QuestObj = {};
         var AssortObj = {};
@@ -572,12 +572,20 @@ class Mod {
                 itstr = itstr + itarr[i];
             }
             if (itstr != "") {
-                data["helpdoc"]["交易信息 " + Locale[itemid + " Name"]] = Locale[itemid + " Name"] + itstr;
-                itstr = "";
-                itarr = [];
+                if (modparent(itemid, 6) != "5448fe124bdc2da5018b4567") {
+                    data["helpdoc"]["交易信息 " + Locale[itemid + " Name"]] = Locale[itemid + " Name"] + itstr;
+                    itstr = "";
+                    itarr = [];
+                }
             }
         }
         VFS.writeFile(`${ModPath}交易数据手册.json`, JSON.stringify(data, null, 4));
+        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 1) + " Name"]);
+        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 2) + " Name"]);
+        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 3) + " Name"]);
+        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 4) + " Name"]);
+        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 5) + " Name"]);
+        CustomAccess(Locale[modparent("55d4887d4bdc2d962f8b4570", 6) + " Name"]);
         //任务物品需求(需要重写)
         for (let item in ClientItems) {
             var itarr = [];
@@ -656,6 +664,29 @@ class Mod {
                         _tpl: '5449016a4bdc2d6f028b456f'
                     }]];
             AssortData1.loyal_level_items[CacheHashID] = ll;
+        }
+        function checkblacklist(string, array) {
+            return array.includes(string);
+        }
+        function modparent(id, level) {
+            var parent = ClientItems[id]._parent;
+            var id2 = "";
+            for (var i = 0; i < level - 1; i++) {
+                id = ClientItems[id]._parent;
+                if (id != "") {
+                    parent = ClientItems[id]._parent;
+                    if (parent == "5448fe124bdc2da5018b4567") {
+                        break;
+                    }
+                }
+                else {
+                    return parent;
+                }
+            }
+            return parent;
+        }
+        function getprice(id) {
+            return ClientDB.templates.price[id];
         }
         AddAssort(Therapist, "5a29357286f77409c705e025", 1, 1);
     }
