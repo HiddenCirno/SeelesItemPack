@@ -1,12 +1,40 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const crypto_1 = __importDefault(require("crypto"));
+const ConfigTypes_1 = require("C:/snapshot/project/obj/models/enums/ConfigTypes");
+const baseJson = __importStar(require("../db/trader/allitemsonline/base.json"));
+//
 class Mod {
     preAkiLoad(container) {
-        return;
+        const configServer = container.resolve("ConfigServer");
+        const traderConfig = configServer.getConfig(ConfigTypes_1.ConfigTypes.TRADER);
+        this.setupTraderUpdateTime(traderConfig);
     }
     postAkiLoad(container) {
         const Logger = container.resolve("WinstonLogger");
@@ -53,9 +81,53 @@ class Mod {
         const BotTagilla = ClientDB.bots.types.bosstagilla;
         const BotBigPipe = ClientDB.bots.types.followerbigpipe;
         const BotBirdEye = ClientDB.bots.types.followerbirdeye;
+        const Locale = ClientDB.locales.global["ch"];
+        const ELocale = ClientDB.locales.global["en"];
+        const ClientQuest = DB.templates.templates.quests;
+        const ClientItems = DB.templates.templates.items;
+        const ClientTrader = DB.templates.traders;
         for (let preset in DB.Preset) {
             var id = DB.Preset[preset].ID;
             ClientDB.globals.ItemPresets[id] = DB.Preset[preset].Preset;
+        }
+        for (let item in ClientItems) {
+            if (Locale[ClientItems[item]._id + " Name"] != undefined) {
+                if (ClientItems[item]._props.Prefab) {
+                    if (ClientItems[item]._props.Prefab.path != "") {
+                        var AssortData2 = DB.trader["allitemsonline"].assort;
+                        var ItemData = ClientItems[item];
+                        var CacheHashID = GenerateHash(ItemData._id);
+                        AssortData2.items.push({
+                            "_id": CacheHashID,
+                            "_tpl": ItemData._id,
+                            "parentId": "hideout",
+                            "slotId": "hideout",
+                            "upd": {
+                                "StackObjectsCount": 99999,
+                                "UnlimitedCount": true
+                            }
+                        });
+                        AssortData2.barter_scheme[CacheHashID] = [[{
+                                    count: 1,
+                                    _tpl: "5449016a4bdc2d6f028b456f"
+                                }]];
+                        AssortData2.loyal_level_items[CacheHashID] = 1;
+                        ClientDB.templates.items[item]._props.ExaminedByDefault = true;
+                        //ClientDB.traders["allitemsonline"].assort
+                    }
+                }
+            }
+        }
+        VFS.writeFile(`${ModPath}assort.json`, JSON.stringify(AssortData2, null, 4));
+        for (let trader in DB.trader) {
+            ClientDB.traders[trader] = DB.trader[trader];
+            var TraderBase = DB.trader[trader].base;
+            var TraderID = TraderBase._id;
+            ClientDB.locales.global["ch"][TraderID + " FullName"] = TraderBase.surname;
+            ClientDB.locales.global["ch"][TraderID + " FirstName"] = TraderBase.name;
+            ClientDB.locales.global["ch"][TraderID + " Nickname"] = TraderBase.nickname;
+            ClientDB.locales.global["ch"][TraderID + " Location"] = TraderBase.location;
+            ClientDB.locales.global["ch"][TraderID + " Description"] = TraderBase.description;
         }
         for (let item in DB.templates.items) {
             var Local = ClientDB.locales.global["ch"];
@@ -153,11 +225,6 @@ class Mod {
             Grizzly._props.MaxHpResource = Grizzly._props.MaxHpResource * 10;
             Grizzly._props.hpResourceRate = Grizzly._props.hpResourceRate * 10;
         }
-        const Locale = ClientDB.locales.global["ch"];
-        const ELocale = ClientDB.locales.global["en"];
-        const ClientQuest = DB.templates.templates.quests;
-        const ClientItems = DB.templates.templates.items;
-        const ClientTrader = DB.templates.traders;
         //初始化数据缓存
         var QuestObj = {};
         var AssortObj = {};
@@ -811,6 +878,10 @@ class Mod {
             return ClientDB.templates.price[id];
         }
         AddAssort(Therapist, "5a29357286f77409c705e025", 1, 1);
+    }
+    setupTraderUpdateTime(traderConfig) {
+        const traderRefreshRecord = { traderId: baseJson._id, seconds: 3600 };
+        traderConfig.updateTime.push(traderRefreshRecord);
     }
 }
 module.exports = { mod: new Mod() };

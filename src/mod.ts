@@ -13,9 +13,13 @@ import { IModLoader } from "@spt-aki/models/spt/mod/IModLoader";
 import { JsonUtil } from "@spt-aki/utils/JsonUtil";
 import { VFS } from "@spt-aki/utils/VFS"
 import { DatabaseImporter } from "@spt-aki/utils/DatabaseImporter"
+import * as baseJson from "../db/trader/allitemsonline/base.json";
+//
 class Mod implements IPreAkiLoadMod {
     public preAkiLoad(container: DependencyContainer): void {
-        return;
+        const configServer = container.resolve<ConfigServer>("ConfigServer");
+        const traderConfig = configServer.getConfig<ITraderConfig>(ConfigTypes.TRADER);
+        this.setupTraderUpdateTime(traderConfig);
     }
     public postAkiLoad(container: DependencyContainer): void {
         const Logger = container.resolve<ILogger>("WinstonLogger");
@@ -62,9 +66,53 @@ class Mod implements IPreAkiLoadMod {
         const BotTagilla = ClientDB.bots.types.bosstagilla
         const BotBigPipe = ClientDB.bots.types.followerbigpipe
         const BotBirdEye = ClientDB.bots.types.followerbirdeye
+        const Locale = ClientDB.locales.global["ch"]
+        const ELocale = ClientDB.locales.global["en"]
+        const ClientQuest = DB.templates.templates.quests
+        const ClientItems = DB.templates.templates.items
+        const ClientTrader = DB.templates.traders
         for (let preset in DB.Preset) {
             var id = DB.Preset[preset].ID
             ClientDB.globals.ItemPresets[id] = DB.Preset[preset].Preset
+        }
+        for (let item in ClientItems) {
+            if (Locale[ClientItems[item]._id + " Name"] != undefined) {
+                if (ClientItems[item]._props.Prefab) {
+                    if (ClientItems[item]._props.Prefab.path != "") {
+                        var AssortData2 = DB.trader["allitemsonline"].assort
+                        var ItemData = ClientItems[item]
+                        var CacheHashID = GenerateHash(ItemData._id)
+                        AssortData2.items.push({
+                            "_id": CacheHashID,
+                            "_tpl": ItemData._id,
+                            "parentId": "hideout",
+                            "slotId": "hideout",
+                            "upd": {
+                                "StackObjectsCount": 99999,
+                                "UnlimitedCount": true
+                            }
+                        })
+                        AssortData2.barter_scheme[CacheHashID] = [[{
+                            count: 1,
+                            _tpl: "5449016a4bdc2d6f028b456f"
+                        }]]
+                        AssortData2.loyal_level_items[CacheHashID] = 1
+                        ClientDB.templates.items[item]._props.ExaminedByDefault = true
+                        //ClientDB.traders["allitemsonline"].assort
+                    }
+                }
+            }
+        }
+        VFS.writeFile(`${ModPath}assort.json`, JSON.stringify(AssortData2, null, 4))
+        for (let trader in DB.trader) {
+            ClientDB.traders[trader] = DB.trader[trader]
+            var TraderBase = DB.trader[trader].base
+            var TraderID = TraderBase._id
+            ClientDB.locales.global["ch"][TraderID + " FullName"] = TraderBase.surname
+            ClientDB.locales.global["ch"][TraderID + " FirstName"] = TraderBase.name
+            ClientDB.locales.global["ch"][TraderID + " Nickname"] = TraderBase.nickname
+            ClientDB.locales.global["ch"][TraderID + " Location"] = TraderBase.location
+            ClientDB.locales.global["ch"][TraderID + " Description"] = TraderBase.description
         }
         for (let item in DB.templates.items) {
             var Local = ClientDB.locales.global["ch"]
@@ -162,11 +210,6 @@ class Mod implements IPreAkiLoadMod {
             Grizzly._props.MaxHpResource = Grizzly._props.MaxHpResource * 10
             Grizzly._props.hpResourceRate = Grizzly._props.hpResourceRate * 10
         }
-        const Locale = ClientDB.locales.global["ch"]
-        const ELocale = ClientDB.locales.global["en"]
-        const ClientQuest = DB.templates.templates.quests
-        const ClientItems = DB.templates.templates.items
-        const ClientTrader = DB.templates.traders
         //初始化数据缓存
         var QuestObj = {}
         var AssortObj = {}
@@ -577,7 +620,7 @@ class Mod implements IPreAkiLoadMod {
         data2["comment"] = "逃离塔科夫物品交易用途"
         data2["helpdoc"] = {}
         data2["helpdoc"]["交易用途"] = "欢迎使用逃离塔科夫物品交易用途帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：\n0.13.0.2.27103\n当前手册服务端版本：\nSPT-AKI-BleedingEdge-3.5.0\nUpdate02012023"
-        for(let item in ClientItems){
+        for (let item in ClientItems) {
             var itarr = []
             var itarr2 = []
             var itstr = ""
@@ -585,98 +628,98 @@ class Mod implements IPreAkiLoadMod {
             for (let td in AssortJson) {
                 for (let it in AssortJson[td].Item) {
                     var It = AssortJson[td].Item[it]
-                        switch (It.type) {
-                            case "Exchange": {
-                                switch (It.limit) {
-                                    case "Limit": {
-                                        switch (It.unlock) {
-                                            case "Quest": {
-                                                for(let it2 in It.list){
-                                                    if(It.list[it2].id==itemid){
-                                                        var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: "
-                                                        var arr2 = []
-                                                        for(let it3 in It.list){
-                                                                arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count)
-                                                        }
-                                                        for(var i = 0; i < arr2.length; i++){
-                                                            str2+=arr2[i]
-                                                        }
-                                                        str2+="\n需求信任等级 " + It.level + "\n需要完成任务 " + It.quest.name + "(" + It.quest.tradername + ")" + "\n限购数量 " + It.limitcount
-                                                        itarr.push(str2)
-                                                        str2 = ""
-                                                        arr2 = []
+                    switch (It.type) {
+                        case "Exchange": {
+                            switch (It.limit) {
+                                case "Limit": {
+                                    switch (It.unlock) {
+                                        case "Quest": {
+                                            for (let it2 in It.list) {
+                                                if (It.list[it2].id == itemid) {
+                                                    var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: "
+                                                    var arr2 = []
+                                                    for (let it3 in It.list) {
+                                                        arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count)
                                                     }
+                                                    for (var i = 0; i < arr2.length; i++) {
+                                                        str2 += arr2[i]
+                                                    }
+                                                    str2 += "\n需求信任等级 " + It.level + "\n需要完成任务 " + It.quest.name + "(" + It.quest.tradername + ")" + "\n限购数量 " + It.limitcount
+                                                    itarr.push(str2)
+                                                    str2 = ""
+                                                    arr2 = []
                                                 }
                                             }
-                                                break
-                                            case "None": {
-                                                for(let it2 in It.list){
-                                                    if(It.list[it2].id==itemid){
-                                                        var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: "
-                                                        var arr2 = []
-                                                        for(let it3 in It.list){
-                                                                arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count)
-                                                        }
-                                                        for(var i = 0; i < arr2.length; i++){
-                                                            str2+=arr2[i]
-                                                        }
-                                                        str2+="\n需求信任等级 " + It.level + "\n限购数量 " + It.limitcount
-                                                        itarr.push(str2)
-                                                        str2 = ""
-                                                        arr2 = []
-                                                    }
-                                                }
-                                            }
-                                                break
                                         }
-                                    }
-                                        break
-                                    case "None": {
-                                        switch (It.unlock) {
-                                            case "Quest": {
-                                                for(let it2 in It.list){
-                                                    if(It.list[it2].id==itemid){
-                                                        var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: "
-                                                        var arr2 = []
-                                                        for(let it3 in It.list){
-                                                                arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count)
-                                                        }
-                                                        for(var i = 0; i < arr2.length; i++){
-                                                            str2+=arr2[i]
-                                                        }
-                                                        str2+="\n需求信任等级 " + It.level + "\n需要完成任务 " + It.quest.name + "(" + It.quest.tradername + ")"
-                                                        itarr.push(str2)
-                                                        str2 = ""
-                                                        arr2 = []
+                                            break
+                                        case "None": {
+                                            for (let it2 in It.list) {
+                                                if (It.list[it2].id == itemid) {
+                                                    var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: "
+                                                    var arr2 = []
+                                                    for (let it3 in It.list) {
+                                                        arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count)
                                                     }
+                                                    for (var i = 0; i < arr2.length; i++) {
+                                                        str2 += arr2[i]
+                                                    }
+                                                    str2 += "\n需求信任等级 " + It.level + "\n限购数量 " + It.limitcount
+                                                    itarr.push(str2)
+                                                    str2 = ""
+                                                    arr2 = []
                                                 }
                                             }
-                                                break
-                                            case "None": {
-                                                for(let it2 in It.list){
-                                                    if(It.list[it2].id==itemid){
-                                                        var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: "
-                                                        var arr2 = []
-                                                        for(let it3 in It.list){
-                                                                arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count)
-                                                        }
-                                                        for(var i = 0; i < arr2.length; i++){
-                                                            str2+=arr2[i]
-                                                        }
-                                                        str2+="\n需求信任等级 " + It.level
-                                                        itarr.push(str2)
-                                                        str2 = ""
-                                                        arr2 = []
-                                                    }
-                                                }
-                                            }
-                                                break
                                         }
+                                            break
                                     }
-                                        break
                                 }
+                                    break
+                                case "None": {
+                                    switch (It.unlock) {
+                                        case "Quest": {
+                                            for (let it2 in It.list) {
+                                                if (It.list[it2].id == itemid) {
+                                                    var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: "
+                                                    var arr2 = []
+                                                    for (let it3 in It.list) {
+                                                        arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count)
+                                                    }
+                                                    for (var i = 0; i < arr2.length; i++) {
+                                                        str2 += arr2[i]
+                                                    }
+                                                    str2 += "\n需求信任等级 " + It.level + "\n需要完成任务 " + It.quest.name + "(" + It.quest.tradername + ")"
+                                                    itarr.push(str2)
+                                                    str2 = ""
+                                                    arr2 = []
+                                                }
+                                            }
+                                        }
+                                            break
+                                        case "None": {
+                                            for (let it2 in It.list) {
+                                                if (It.list[it2].id == itemid) {
+                                                    var str2 = "\n此物品可在" + AssortJson[td].Name + "处换取 " + It.name + "\n完整需求: "
+                                                    var arr2 = []
+                                                    for (let it3 in It.list) {
+                                                        arr2.push("\n" + It.list[it3].name + " x" + It.list[it3].count)
+                                                    }
+                                                    for (var i = 0; i < arr2.length; i++) {
+                                                        str2 += arr2[i]
+                                                    }
+                                                    str2 += "\n需求信任等级 " + It.level
+                                                    itarr.push(str2)
+                                                    str2 = ""
+                                                    arr2 = []
+                                                }
+                                            }
+                                        }
+                                            break
+                                    }
+                                }
+                                    break
                             }
                         }
+                    }
                 }
             }
             for (var i = 0; i < itarr.length; i++) {
@@ -788,6 +831,10 @@ class Mod implements IPreAkiLoadMod {
             return ClientDB.templates.price[id]
         }
         AddAssort(Therapist, "5a29357286f77409c705e025", 1, 1)
+    }
+    private setupTraderUpdateTime(traderConfig: ITraderConfig): void {
+        const traderRefreshRecord: UpdateTime = { traderId: baseJson._id, seconds: 3600 }
+        traderConfig.updateTime.push(traderRefreshRecord);
     }
 }
 module.exports = { mod: new Mod() }

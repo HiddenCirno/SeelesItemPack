@@ -1,0 +1,108 @@
+{
+    "_id": "allitemsonline",
+    "availableInRaid": false,
+    "avatar": "/files/trader/avatar/unknown.jpg",
+    "balance_dol": 0,
+    "balance_eur": 0,
+    "balance_rub": 80000000,
+    "buyer_up": false,
+    "currency": "RUB",
+    "customization_seller": true,
+    "discount": 0,
+    "discount_end": 0,
+    "gridHeight": 160,
+    "insurance": {
+      "availability": false,
+      "excluded_category": [],
+      "max_return_hour": 3,
+      "max_storage_time": 168,
+      "min_payment": 0,
+      "min_return_hour": 6
+    },
+    "items_buy": {
+      "category": [
+        "543be5664bdc2dd4348b4569",
+        "543be5e94bdc2df1348b4568",
+        "543be6674bdc2df1348b4569",
+        "5448eb774bdc2d0a728b4567",
+        "5448ecbe4bdc2d60728b4568",
+        "5448f3ac4bdc2dce718b4569"
+      ],
+      "id_list": []
+    },
+    "items_buy_prohibited": {
+      "category": [],
+      "id_list": []
+    },
+    "location": "Unknown",
+    "loyaltyLevels": [
+      {
+        "buy_price_coef": 44,
+        "exchange_price_coef": 0,
+        "heal_price_coef": 0,
+        "insurance_price_coef": 10,
+        "minLevel": 1,
+        "minSalesSum": 0,
+        "minStanding": 0,
+        "repair_price_coef": 150
+      },
+      {
+        "buy_price_coef": 38,
+        "exchange_price_coef": 0,
+        "heal_price_coef": 0,
+        "insurance_price_coef": "8",
+        "minLevel": 1,
+        "minSalesSum": 0,
+        "minStanding": 0.2,
+        "repair_price_coef": 125
+      },
+      {
+        "buy_price_coef": 32,
+        "exchange_price_coef": 0,
+        "heal_price_coef": 0,
+        "insurance_price_coef": "6",
+        "minLevel": 1,
+        "minSalesSum": 0,
+        "minStanding": 0.2,
+        "repair_price_coef": 100
+      },
+      {
+        "buy_price_coef": 26,
+        "exchange_price_coef": 0,
+        "heal_price_coef": 0,
+        "insurance_price_coef": "4",
+        "minLevel": 1,
+        "minSalesSum": 0,
+        "minStanding": 0.2,
+        "repair_price_coef": 75
+      }
+    ],
+    "medic": false,
+    "name": "全物品列表",
+    "description":"用于Debug测试的全物品商人。",
+    
+    "nextResupply": 1631483553,
+    "nickname": "全物品列表",
+    "repair": {
+      "availability": true,
+      "currency": "5449016a4bdc2d6f028b456f",
+      "currency_coefficient": 1,
+      "excluded_category": [],
+      "excluded_id_list": [],
+      "quality": "0.1"
+    },
+    "sell_category": [
+          "5b47574386f77428ca22b344",
+          "5b47574386f77428ca22b2f1",
+          "5b47574386f77428ca22b340",
+          "5b47574386f77428ca22b2f4",
+          "5b47574386f77428ca22b2f3",
+          "5b47574386f77428ca22b342",
+          "5b47574386f77428ca22b341",
+          "5b5f6fa186f77409407a7eb7",
+          "5b47574386f77428ca22b343"
+    ],
+    "surname": "全物品列表",
+    "unlockedByDefault": true
+  }
+  
