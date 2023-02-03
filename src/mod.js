@@ -646,6 +646,11 @@ class Mod {
                 }
             }
         }
+        var arra1 = [];
+        for (var i = 1993; i < 2492; i++) {
+            arra1.push("[CQ:image,file=/EFT抽卡/" + i + ".png]");
+        }
+        VFS.writeFile(`${ModPath}arra1.json`, JSON.stringify(arra1, null, 4));
         VFS.writeFile(`${ModPath}交易数据手册.json`, JSON.stringify(data, null, 4));
         //构建交易用途对象
         var data2 = {};
