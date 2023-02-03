@@ -484,7 +484,7 @@ class Mod implements IPreAkiLoadMod {
         data["brief"] = "逃离塔科夫商人交易数据手册"
         data["comment"] = "逃离塔科夫商人交易数据手册"
         data["helpdoc"] = {}
-        data["helpdoc"]["交易信息"] = "欢迎使用逃离塔科夫商人交易数据帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：\n0.13.0.2.27103\n当前手册服务端版本：\nSPT-AKI-BleedingEdge-3.5.0\nUpdate02012023"
+        data["helpdoc"]["交易信息"] = "欢迎使用逃离塔科夫商人交易数据帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：\n0.13.0.2.27134\n当前手册服务端版本：\nSPT-AKI-BleedingEdge-3.5.0\nUpdate02032023"
         for (let item in ClientItems) {
             var itarr = []
             var itarr2 = []
@@ -619,7 +619,7 @@ class Mod implements IPreAkiLoadMod {
         data2["brief"] = "逃离塔科夫物品交易用途"
         data2["comment"] = "逃离塔科夫物品交易用途"
         data2["helpdoc"] = {}
-        data2["helpdoc"]["交易用途"] = "欢迎使用逃离塔科夫物品交易用途帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：\n0.13.0.2.27103\n当前手册服务端版本：\nSPT-AKI-BleedingEdge-3.5.0\nUpdate02012023"
+        data2["helpdoc"]["交易用途"] = "欢迎使用逃离塔科夫物品交易用途帮助文档，所有数据皆由离线版服务端数据生成，不保证时效性。\n当前手册客户端版本：\n0.13.0.2.27134\n当前手册服务端版本：\nSPT-AKI-BleedingEdge-3.5.0\nUpdate02032023"
         for (let item in ClientItems) {
             var itarr = []
             var itarr2 = []
