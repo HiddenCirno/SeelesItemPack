@@ -708,5 +708,99 @@
       }
     },
     "_proto": "54491bb74bdc2d09088b4567"
+  },
+  "测试盒": {
+    "_id": "测试盒",
+    "_name": "测试盒",
+    "_parent": "62f109593b54472778797866",
+    "_type": "Item",
+    "_props": {
+      "Name": "测试盒",
+      "ShortName": "测试盒",
+      "Description": "测试盒",
+      "Weight": 1,
+      "BackgroundColor": "blue",
+      "Width": 2,
+      "Height": 2,
+      "RagfairType": "5b5f6fa186f77409407a7eb7",
+      "DefaultPrice": 10000,
+      "StackMaxSize": 1,
+      "ItemSound": "container_plastic",
+      "Prefab": {
+        "path": "assets/content/items/containers/item_container_cristmas_prize_01-02/item_container_cristmas_prize_01.bundle",
+        "rcid": ""
+      },
+      "UsePrefab": {
+        "path": "",
+        "rcid": ""
+      },
+      "StackObjectsCount": 1,
+      "NotShownInSlot": false,
+      "ExaminedByDefault": false,
+      "ExamineTime": 1,
+      "IsUndiscardable": false,
+      "IsUnsaleable": false,
+      "IsUnbuyable": false,
+      "IsUngivable": false,
+      "IsLockedafterEquip": false,
+      "QuestItem": false,
+      "LootExperience": 20,
+      "ExamineExperience": 10,
+      "HideEntrails": true,
+      "RepairCost": 0,
+      "RepairSpeed": 0,
+      "ExtraSizeLeft": 0,
+      "ExtraSizeRight": 0,
+      "ExtraSizeUp": 0,
+      "ExtraSizeDown": 0,
+      "ExtraSizeForceAdd": false,
+      "MergesWithChildren": false,
+      "CanSellOnRagfair": true,
+      "CanRequireOnRagfair": true,
+      "ConflictingItems": [],
+      "Unlootable": false,
+      "UnlootableFromSlot": "FirstPrimaryWeapon",
+      "UnlootableFromSide": [],
+      "AnimationVariantsNumber": 0,
+      "DiscardingBlock": false,
+      "RagFairCommissionModifier": 1,
+      "IsAlwaysAvailableForInsurance": false,
+      "DiscardLimit": -1,
+      "DropSoundType": "None",
+      "InsuranceDisabled": true,
+      "QuestStashMaxCount": 0,
+      "IsSpecialSlotOnly": false,
+      "IsUnremovable": false,
+      "Grids": [
+        {
+          "_name": "main",
+          "_id": "63a8970d7108f713591149f6",
+          "_parent": "测试盒",
+          "_props": {
+            "filters": [
+              {
+                "Filter": [],
+                "ExcludedFilter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "cellsH": 2,
+            "cellsV": 2,
+            "minCount": 1,
+            "maxCount": 6,
+            "maxWeight": 3,
+            "isSortingTable": false
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        }
+      ],
+      "Slots": [],
+      "CanPutIntoDuringTheRaid": true,
+      "CantRemoveFromSlotsDuringRaid": [],
+      "SearchSound": "drawer_metal_looting",
+      "BlocksArmorVest": false
+    },
+    "_proto": "578f87a3245977356274f2cb"
   }
 }

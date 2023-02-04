@@ -3,23 +3,38 @@ import crypto from "crypto";
 import { IPostDBLoadMod } from "@spt-aki/models/external/IPostDBLoadMod";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { IPreAkiLoadMod } from "@spt-aki/models/external/IPreAkiLoadMod";
+import { DialogueHelper } from "@spt-aki/helpers/DialogueHelper";
 import { IPostAkiLoadMod } from "@spt-aki/models/external/IPostAkiLoadMod";
+import type { StaticRouterModService } from "@spt-aki/services/mod/staticRouter/StaticRouterModService";
 import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { ImageRouter } from "@spt-aki/routers/ImageRouter";
 import { ConfigServer } from "@spt-aki/servers/ConfigServer";
 import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
 import { ITraderConfig, UpdateTime } from "@spt-aki/models/spt/config/ITraderConfig";
 import { IModLoader } from "@spt-aki/models/spt/mod/IModLoader";
+import { PreAkiModLoader } from "@spt-aki/loaders/PreAkiModLoader";
 import { JsonUtil } from "@spt-aki/utils/JsonUtil";
+import { Traders } from "@spt-aki/models/enums/Traders";
+import { QuestStatus } from "@spt-aki/models/enums/QuestStatus";
+import { MessageType } from "@spt-aki/models/enums/MessageType";
+import { HashUtil } from "@spt-aki/utils/HashUtil";
 import { VFS } from "@spt-aki/utils/VFS"
+import { NotificationSendHelper } from "@spt-aki/helpers/NotificationSendHelper";
+import { NotifierHelper } from "@spt-aki/helpers/NotifierHelper";
+import { QuestHelper } from "@spt-aki/helpers/QuestHelper";
 import { DatabaseImporter } from "@spt-aki/utils/DatabaseImporter"
 import * as baseJson from "../db/trader/allitemsonline/base.json";
+import { BundleLoader } from "@spt-aki/loaders/BundleLoader";
 //
 class Mod implements IPreAkiLoadMod {
+    private static container: DependencyContainer;
     public preAkiLoad(container: DependencyContainer): void {
         const configServer = container.resolve<ConfigServer>("ConfigServer");
         const traderConfig = configServer.getConfig<ITraderConfig>(ConfigTypes.TRADER);
+        const preAkiModLoader = container.resolve("PreAkiModLoader");
+        const staticRouterModService = container.resolve<StaticRouterModService>("StaticRouterModService");
         this.setupTraderUpdateTime(traderConfig);
+        const imageRouter = container.resolve<ImageRouter>("ImageRouter")
     }
     public postAkiLoad(container: DependencyContainer): void {
         const Logger = container.resolve<ILogger>("WinstonLogger");
@@ -32,6 +47,9 @@ class Mod implements IPreAkiLoadMod {
         const ClientDB = FuncDatabaseServer.getTables();
         const ModPath = PreAkiModLoader.getModPath("SeelesItemPack")
         const DB = FuncDatabaseImporter.loadRecursive(`${ModPath}db/`)
+        const configServer = container.resolve<JsonUtil>("ConfigServer");
+        const Invcfg = configServer.getConfig(ConfigTypes.INVENTORY);
+        const DBLoot = DB.templates.randomloots
         const Config = JsonUtil.deserialize(VFS.readFile(`${ModPath}config.json`));
         var HandbookObj = {}
         for (var i = 0; i < ClientDB.templates.handbook.Items.length; i++) {
@@ -50,11 +68,15 @@ class Mod implements IPreAkiLoadMod {
         const imageRouter = container.resolve<ImageRouter>("ImageRouter");
         const VFS = container.resolve<VFS>("VFS");
         const JsonUtil = container.resolve<JsonUtil>("JsonUtil");
+        const configServer = container.resolve<JsonUtil>("ConfigServer");
         const ClientDB = FuncDatabaseServer.getTables();
         const ModPath = PreAkiModLoader.getModPath("SeelesItemPack")
         const DB = FuncDatabaseImporter.loadRecursive(`${ModPath}db/`)
         const Config = JsonUtil.deserialize(VFS.readFile(`${ModPath}config.json`));
         const AllItems = ClientDB.templates.items;
+        const Invcfg = configServer.getConfig(ConfigTypes.INVENTORY);
+        const DBLoot = DB.templates.randomloots
+        //CustomLog(JSON.stringify(Invcfg, null, 4))
         var Therapist = "54cb57776803fa99248b456e"
         var AssortData = ClientDB.traders[Therapist].assort
         const BotReshala = ClientDB.bots.types.bossbully
@@ -75,6 +97,13 @@ class Mod implements IPreAkiLoadMod {
             var id = DB.Preset[preset].ID
             ClientDB.globals.ItemPresets[id] = DB.Preset[preset].Preset
         }
+        for (let rd in DBLoot) {
+            Invcfg.randomLootContainers[rd] = DBLoot[rd]
+            for (let it in DBLoot[rd].rewardTplPool) {
+                //CustomAccess(Locale[it + " Name"])
+            }
+        }
+        //CustomLog(JSON.stringify(Invcfg, null, 4))
         for (let item in ClientItems) {
             if (Locale[ClientItems[item]._id + " Name"] != undefined) {
                 if (ClientItems[item]._props.Prefab) {
@@ -108,11 +137,16 @@ class Mod implements IPreAkiLoadMod {
             ClientDB.traders[trader] = DB.trader[trader]
             var TraderBase = DB.trader[trader].base
             var TraderID = TraderBase._id
-            ClientDB.locales.global["ch"][TraderID + " FullName"] = TraderBase.surname
-            ClientDB.locales.global["ch"][TraderID + " FirstName"] = TraderBase.name
-            ClientDB.locales.global["ch"][TraderID + " Nickname"] = TraderBase.nickname
-            ClientDB.locales.global["ch"][TraderID + " Location"] = TraderBase.location
-            ClientDB.locales.global["ch"][TraderID + " Description"] = TraderBase.description
+            Locale[TraderID + " FullName"] = TraderBase.surname
+            Locale[TraderID + " FirstName"] = TraderBase.name
+            Locale[TraderID + " Nickname"] = TraderBase.nickname
+            Locale[TraderID + " Location"] = TraderBase.location
+            Locale[TraderID + " Description"] = TraderBase.description
+            ELocale[TraderID + " FullName"] = TraderBase.surname
+            ELocale[TraderID + " FirstName"] = TraderBase.name
+            ELocale[TraderID + " Nickname"] = TraderBase.nickname
+            ELocale[TraderID + " Location"] = TraderBase.location
+            ELocale[TraderID + " Description"] = TraderBase.description
         }
         for (let item in DB.templates.items) {
             var Local = ClientDB.locales.global["ch"]

@@ -28,13 +28,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const crypto_1 = __importDefault(require("crypto"));
 const ConfigTypes_1 = require("C:/snapshot/project/obj/models/enums/ConfigTypes");
+const QuestStatus_1 = require("C:/snapshot/project/obj/models/enums/QuestStatus");
+const MessageType_1 = require("C:/snapshot/project/obj/models/enums/MessageType");
 const baseJson = __importStar(require("../db/trader/allitemsonline/base.json"));
+const baseJson2 = __importStar(require("../db/trader/SimulationSystemTrader/base.json"));
 //
 class Mod {
     preAkiLoad(container) {
         const configServer = container.resolve("ConfigServer");
         const traderConfig = configServer.getConfig(ConfigTypes_1.ConfigTypes.TRADER);
+        const preAkiModLoader = container.resolve("PreAkiModLoader");
+        const staticRouterModService = container.resolve("StaticRouterModService");
         this.setupTraderUpdateTime(traderConfig);
+        const imageRouter = container.resolve("ImageRouter");
+        this.registerProfileImage(preAkiModLoader, imageRouter);
+        Mod.container = container;
+        staticRouterModService.registerStaticRouter("StaticRouteAkiOnSaveLoad", [
+            {
+                url: "/launcher/profile/compatibleTarkovVersion",
+                action: (url, info, sessionId, output) => {
+                    //var saveversion = profileHelper.getFullProfile(sessionId).info.edition
+                    //logger.info("Hook Awaked.")
+                    this.SMessage(container, sessionId);
+                    return output;
+                }
+            }
+        ], "aki");
     }
     postAkiLoad(container) {
         const Logger = container.resolve("WinstonLogger");
@@ -47,6 +66,9 @@ class Mod {
         const ClientDB = FuncDatabaseServer.getTables();
         const ModPath = PreAkiModLoader.getModPath("SeelesItemPack");
         const DB = FuncDatabaseImporter.loadRecursive(`${ModPath}db/`);
+        const configServer = container.resolve("ConfigServer");
+        const Invcfg = configServer.getConfig(ConfigTypes_1.ConfigTypes.INVENTORY);
+        const DBLoot = DB.templates.randomloots;
         const Config = JsonUtil.deserialize(VFS.readFile(`${ModPath}config.json`));
         var HandbookObj = {};
         for (var i = 0; i < ClientDB.templates.handbook.Items.length; i++) {
@@ -65,11 +87,15 @@ class Mod {
         const imageRouter = container.resolve("ImageRouter");
         const VFS = container.resolve("VFS");
         const JsonUtil = container.resolve("JsonUtil");
+        const configServer = container.resolve("ConfigServer");
         const ClientDB = FuncDatabaseServer.getTables();
         const ModPath = PreAkiModLoader.getModPath("SeelesItemPack");
         const DB = FuncDatabaseImporter.loadRecursive(`${ModPath}db/`);
         const Config = JsonUtil.deserialize(VFS.readFile(`${ModPath}config.json`));
         const AllItems = ClientDB.templates.items;
+        const Invcfg = configServer.getConfig(ConfigTypes_1.ConfigTypes.INVENTORY);
+        const DBLoot = DB.templates.randomloots;
+        //CustomLog(JSON.stringify(Invcfg, null, 4))
         var Therapist = "54cb57776803fa99248b456e";
         var AssortData = ClientDB.traders[Therapist].assort;
         const BotReshala = ClientDB.bots.types.bossbully;
@@ -90,6 +116,13 @@ class Mod {
             var id = DB.Preset[preset].ID;
             ClientDB.globals.ItemPresets[id] = DB.Preset[preset].Preset;
         }
+        for (let rd in DBLoot) {
+            Invcfg.randomLootContainers[rd] = DBLoot[rd];
+            for (let it in DBLoot[rd].rewardTplPool) {
+                //CustomAccess(Locale[it + " Name"])
+            }
+        }
+        //CustomLog(JSON.stringify(Invcfg, null, 4))
         for (let item in ClientItems) {
             if (Locale[ClientItems[item]._id + " Name"] != undefined) {
                 if (ClientItems[item]._props.Prefab) {
@@ -118,16 +151,26 @@ class Mod {
                 }
             }
         }
+        //添加系统消息
+        for (let key in DB.templates.Locale) {
+            Locale[key] = DB.templates.Locale[key];
+            ELocale[key] = DB.templates.Locale[key];
+        }
         VFS.writeFile(`${ModPath}assort.json`, JSON.stringify(AssortData2, null, 4));
         for (let trader in DB.trader) {
             ClientDB.traders[trader] = DB.trader[trader];
             var TraderBase = DB.trader[trader].base;
             var TraderID = TraderBase._id;
-            ClientDB.locales.global["ch"][TraderID + " FullName"] = TraderBase.surname;
-            ClientDB.locales.global["ch"][TraderID + " FirstName"] = TraderBase.name;
-            ClientDB.locales.global["ch"][TraderID + " Nickname"] = TraderBase.nickname;
-            ClientDB.locales.global["ch"][TraderID + " Location"] = TraderBase.location;
-            ClientDB.locales.global["ch"][TraderID + " Description"] = TraderBase.description;
+            Locale[TraderID + " FullName"] = TraderBase.surname;
+            Locale[TraderID + " FirstName"] = TraderBase.name;
+            Locale[TraderID + " Nickname"] = TraderBase.nickname;
+            Locale[TraderID + " Location"] = TraderBase.location;
+            Locale[TraderID + " Description"] = TraderBase.description;
+            ELocale[TraderID + " FullName"] = TraderBase.surname;
+            ELocale[TraderID + " FirstName"] = TraderBase.name;
+            ELocale[TraderID + " Nickname"] = TraderBase.nickname;
+            ELocale[TraderID + " Location"] = TraderBase.location;
+            ELocale[TraderID + " Description"] = TraderBase.description;
         }
         for (let item in DB.templates.items) {
             var Local = ClientDB.locales.global["ch"];
@@ -646,11 +689,6 @@ class Mod {
                 }
             }
         }
-        var arra1 = [];
-        for (var i = 1993; i < 2492; i++) {
-            arra1.push("[CQ:image,file=/EFT抽卡/" + i + ".png]");
-        }
-        VFS.writeFile(`${ModPath}arra1.json`, JSON.stringify(arra1, null, 4));
         VFS.writeFile(`${ModPath}交易数据手册.json`, JSON.stringify(data, null, 4));
         //构建交易用途对象
         var data2 = {};
@@ -886,7 +924,147 @@ class Mod {
     }
     setupTraderUpdateTime(traderConfig) {
         const traderRefreshRecord = { traderId: baseJson._id, seconds: 3600 };
+        const traderRefreshRecord2 = { traderId: baseJson2._id, seconds: 3600 };
         traderConfig.updateTime.push(traderRefreshRecord);
+        traderConfig.updateTime.push(traderRefreshRecord2);
+    }
+    SMessage(container, sessionId) {
+        const diaoluehelper = container.resolve("DialogueHelper");
+        const notificationSendHelper = container.resolve("NotificationSendHelper");
+        const notifierHelper = container.resolve("NotifierHelper");
+        const hashUtil = container.resolve("HashUtil");
+        const PreAkiModLoader = container.resolve("PreAkiModLoader");
+        const questHelper = container.resolve("QuestHelper");
+        const Logger = container.resolve("WinstonLogger");
+        const FuncDatabaseServer = container.resolve("DatabaseServer");
+        const FuncDatabaseImporter = container.resolve("DatabaseImporter");
+        const VFS = container.resolve("VFS");
+        const JsonUtil = container.resolve("JsonUtil");
+        const ClientDB = FuncDatabaseServer.getTables();
+        const ModPath = PreAkiModLoader.getModPath("SeelesItemPack");
+        const DB = FuncDatabaseImporter.loadRecursive(`${ModPath}db/`);
+        const ClientQuest = ClientDB.templates.quests;
+        const ClientItems = DB.templates.templates.items;
+        const ClientTrader = DB.templates.traders;
+        const Timer = JsonUtil.deserialize(VFS.readFile(`${ModPath}timer.json`));
+        var ItemArr = [];
+        var MedicArr = [];
+        var SyringesArr = [];
+        var ArmorArr = [];
+        var TacticalVestArr = [];
+        var FoodArr = [];
+        var DrinkArr = [];
+        //使用跳蚤市场标签处理物品数组
+        CreateArrWithTag("5b47574386f77428ca22b338", MedicArr); //Medic Kit
+        CreateArrWithTag("5b47574386f77428ca22b33a", SyringesArr); //injector
+        CreateArrWithTag("5b5f701386f774093f2ecf0f", ArmorArr); //Armor
+        CreateArrWithTag("5b5f6f8786f77447ed563642", TacticalVestArr); //TacticalVest(include armor vest)
+        CreateArrWithTag("5b47574386f77428ca22b336", FoodArr); //Food
+        CreateArrWithTag("5b47574386f77428ca22b335", DrinkArr); //Drink
+        function CreateArrWithTag(Tag, Array) {
+            for (var i = 0; i < ClientDB.templates.handbook.Items.length; i++) {
+                var ItemData = ClientDB.templates.handbook.Items[i];
+                if (ItemData.ParentId == Tag) {
+                    Array.push({
+                        "_id": hashUtil.generate(),
+                        "_tpl": ItemData.Id,
+                        "upd": {
+                            "StackObjectsCount": 1,
+                            "SpawnedInSession": true
+                        }
+                    });
+                }
+            }
+        }
+        function AddReward(id, count, Array) {
+            Array.push({
+                "_id": hashUtil.generate(),
+                "_tpl": id,
+                "upd": {
+                    "StackObjectsCount": count,
+                    "SpawnedInSession": true
+                }
+            });
+        }
+        ItemArr.push(DrawObjFromArr(MedicArr));
+        ItemArr.push(DrawObjFromArr(SyringesArr));
+        ItemArr.push(DrawObjFromArr(SyringesArr));
+        ItemArr.push(DrawObjFromArr(ArmorArr));
+        ItemArr.push(DrawObjFromArr(TacticalVestArr));
+        ItemArr.push(DrawObjFromArr(FoodArr));
+        ItemArr.push(DrawObjFromArr(FoodArr));
+        ItemArr.push(DrawObjFromArr(FoodArr));
+        ItemArr.push(DrawObjFromArr(FoodArr));
+        ItemArr.push(DrawObjFromArr(DrinkArr));
+        ItemArr.push(DrawObjFromArr(DrinkArr));
+        ItemArr.push(DrawObjFromArr(DrinkArr));
+        AddReward("5c12613b86f7743bbe2c3f76", 1, ItemArr);
+        AddReward("5449016a4bdc2d6f028b456f", 100000, ItemArr);
+        //从数组中抽取随机元素
+        function DrawObjFromArr(Array) {
+            var randomint = Math.floor(Math.random() * Array.length);
+            return Array[randomint];
+        }
+        Logger.info(Date.now());
+        var reward = questHelper.getQuestRewardItems(ClientQuest["5c51aac186f77432ea65c552"], QuestStatus_1.QuestStatus.Success);
+        Logger.info(Date.now());
+        var messageid = "SystemMessageTest3";
+        var mesaagecontent = diaoluehelper.createMessageContext(messageid, MessageType_1.MessageType.SYSTEM_MESSAGE, 24);
+        var now = new Date;
+        //if no data
+        //create data for save
+        //Logger.info(sessionId)
+        //Logger.info(Timer[sessionId])
+        if (Timer[sessionId] == undefined) {
+            Timer[sessionId] = {};
+            Timer[sessionId].Time = Date.now();
+            Timer[sessionId].Year = now.getFullYear();
+            Timer[sessionId].Month = now.getMonth() + 1;
+            Timer[sessionId].Day = now.getDate();
+            Timer[sessionId].count = 1;
+            if (now.getDay() == 0) {
+                Timer[sessionId].Week = 7;
+            }
+            else {
+                Timer[sessionId].Week = now.getDay();
+            }
+            Timer[sessionId].firstlogin = false;
+            //write file
+            VFS.writeFile(`${ModPath}timer.json`, JSON.stringify(Timer, null, 4));
+            //sent mails
+            diaoluehelper.addDialogueMessage("SimulationSystemTrader", mesaagecontent, sessionId, ItemArr);
+        }
+        //if data == true
+        else {
+            //check if 24 hours later
+            if ((Date.now() - Timer[sessionId].Time) >= 86400000 && Timer[sessionId].firstlogin == false) {
+                Timer[sessionId].firstlogin == true;
+            }
+            //check if first login or 24 hours later
+            if (Timer[sessionId].firstlogin == true || (Date.now() - Timer[sessionId].Time) >= 86400000) {
+                Timer[sessionId].Time = Date.now();
+                Timer[sessionId].Year = now.getFullYear();
+                Timer[sessionId].Month = now.getMonth() + 1;
+                Timer[sessionId].Day = now.getDate();
+                Timer[sessionId].count += 1;
+                if (now.getDay() == 0) {
+                    Timer[sessionId].Week = 7;
+                }
+                else {
+                    Timer[sessionId].Week = now.getDay();
+                }
+                Timer[sessionId].firstlogin = false;
+                //write file
+                VFS.writeFile(`${ModPath}timer.json`, JSON.stringify(Timer, null, 4));
+                //sent mails
+                diaoluehelper.addDialogueMessage("SimulationSystemTrader", mesaagecontent, sessionId, ItemArr);
+            }
+        }
+        ItemArr = [];
+    }
+    registerProfileImage(preAkiModLoader, imageRouter) {
+        const imageFilepath = `./${preAkiModLoader.getModPath("SeelesItemPack")}db/avatar`;
+        imageRouter.addRoute(baseJson2.avatar.replace(".png", ""), `${imageFilepath}/SimulationSystemTrader.png`);
     }
 }
 module.exports = { mod: new Mod() };
