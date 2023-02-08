@@ -76,6 +76,8 @@ class Mod implements IPreAkiLoadMod {
         const AllItems = ClientDB.templates.items;
         const Invcfg = configServer.getConfig(ConfigTypes.INVENTORY);
         const DBLoot = DB.templates.randomloots
+        const Pack = JsonUtil.deserialize(VFS.readFile(`${ModPath}package.json`));
+        const version = Pack.version
         //CustomLog(JSON.stringify(Invcfg, null, 4))
         var Therapist = "54cb57776803fa99248b456e"
         var AssortData = ClientDB.traders[Therapist].assort
@@ -103,6 +105,47 @@ class Mod implements IPreAkiLoadMod {
                 //CustomAccess(Locale[it + " Name"])
             }
         }
+        async function checkUpdate(url, version) {
+            let timeout = 5000;
+            let currentVersion = version;
+
+            return new Promise((resolve, reject) => {
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", url, true);
+                xhr.timeout = timeout;
+
+                xhr.ontimeout = function () {
+                    console.error(`Request timed out after ${timeout} milliseconds.`);
+                    reject(`Request timed out after ${timeout} milliseconds.`);
+                };
+
+                xhr.onreadystatechange = function () {
+                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                        let responseVersion = xhr.responseText.trim();
+                        if (responseVersion !== currentVersion) {
+                            console.log(`Current version: ${currentVersion}. New version: ${responseVersion}.`);
+                            resolve({ currentVersion, responseVersion });
+                        } else {
+                            console.log(`Current version (${currentVersion}) is up-to-date.`);
+                            resolve(null);
+                        }
+                    }
+                };
+
+                xhr.send();
+            });
+        }
+        checkUpdate("https://example.com/version.txt", version)
+            .then((result) => {
+                if (result) {
+                    // handle the update
+                } else {
+                    // do nothing
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
         //CustomLog(JSON.stringify(Invcfg, null, 4))
         for (let item in ClientItems) {
             if (Locale[ClientItems[item]._id + " Name"] != undefined) {
